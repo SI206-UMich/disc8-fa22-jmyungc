@@ -9,7 +9,7 @@ def getLink(soup):
 
     link = "https://en.wikipedia.org"
     
-    link_end = soup.find('a', class_='mw-redirect')
+    link_end = soup.find('a', title='List of American universities with Olympic medals')
 
     link += link_end.get('href')
 
@@ -18,10 +18,17 @@ def getLink(soup):
 # Task 3: Get the details from the box titled "College/school founding". Get all the college/school names and the year they were
 # founded and organize the same into key-value pairs.
 def getAdmissionsInfo2019(soup):
+    table_tag = soup.find('table', class_='toccolours')
+    tr_list = table_tag.find_all('tr')
+    d = {}
 
-    pass
-
-
+    for tr in tr_list[1:]:
+        td_list = tr.find_all('td')
+        school_name = td_list[0].text.strip()
+        year = td_list[1].text.strip()
+        d[school_name] = year
+    
+    return d
 
 def main():
     # Task 1: Create a BeautifulSoup object and name it soup. Refer to discussion slides or lecture slides to complete this
